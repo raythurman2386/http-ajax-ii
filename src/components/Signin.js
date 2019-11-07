@@ -4,8 +4,8 @@ import api from "../utils/api"
 function Signin(props) {
 	const [error, setError] = useState()
 	const [data, setData] = useState({
-		email: "",
-		password: "",
+		email: "jane@doe.com",
+		password: "abc123",
 	})
 
 	const handleChange = (event) => {
@@ -22,23 +22,35 @@ function Signin(props) {
 		// rather than just plain old axios
 		api()
 			.post("/signin", data)
-			.then(result => {
+			.then((result) => {
 				// Store our new token in local storage so it persists
 				localStorage.setItem("token", result.data.token)
 				// Redirect the user to their account page after logging in
 				props.history.push("/account")
 			})
-			.catch(err => {
+			.catch((err) => {
 				setError(err.response.data.message)
 			})
 	}
-	
+
 	return (
 		<form onSubmit={handleSubmit}>
 			{error && <div className="error">{error}</div>}
 
-			<input type="email" name="email" placeholder="Email" value={data.email} onChange={handleChange} />
-			<input type="password" name="password" placeholder="Password" value={data.password} onChange={handleChange} />
+			<input
+				type="email"
+				name="email"
+				placeholder="Email"
+				value={data.email}
+				onChange={handleChange}
+			/>
+			<input
+				type="password"
+				name="password"
+				placeholder="Password"
+				value={data.password}
+				onChange={handleChange}
+			/>
 
 			<button type="submit">Sign In</button>
 		</form>
