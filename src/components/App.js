@@ -1,16 +1,17 @@
-import "./App.css"
-import React from "react"
-import { Link, Route, withRouter } from "react-router-dom"
-import { getToken } from "../utils/api"
-import ProtectedRoute from "./ProtectedRoute"
-import Home from "./Home"
-import Signin from "./Signin"
-import Account from "./Account"
-import Logout from "./Logout"
-import Users from "./Users"
+import "./App.css";
+import React from "react";
+import { Link, Route, withRouter } from "react-router-dom";
+import { getToken } from "../utils/api";
+import ProtectedRoute from "./ProtectedRoute";
+import Home from "./Home";
+import Signin from "./Signin";
+import Account from "./Account";
+import Logout from "./Logout";
+import Users from "./Users";
+import UpdateUser from "./UpdateUser";
 
 function App() {
-	const signedIn = getToken()
+	const signedIn = getToken();
 
 	return (
 		<div className="wrapper">
@@ -29,9 +30,10 @@ function App() {
 			{/* These routes will require an auth token to be set, due to our handy HOC */}
 			<ProtectedRoute exact path="/account" component={Account} />
 			<ProtectedRoute exact path="/users" component={Users} />
+			<ProtectedRoute exact path="/users/:id" component={UpdateUser} />
 			<ProtectedRoute exact path="/logout" component={Logout} />
 		</div>
-	)
+	);
 }
 
-export default withRouter(App)
+export default withRouter(App);
