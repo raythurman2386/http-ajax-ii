@@ -18,12 +18,23 @@ function Users(props) {
 
 	const handleDelete = (e, id) => {
 		e.preventDefault();
-		api()
-			.delete(`/users/${id}`)
-			.then((res) => {
-				setUsers(users.filter((user) => user.is !== id));
-			})
-			.catch((err) => console.log(err));
+
+		// grab user just in case api call fails
+		const user = users.find((user) => user.id === id);
+
+		if (window.confirm(`Are you sure you want to delete, ${user.name}`)) {
+			// Optimistic update
+			setUsers(users.filter((user) => user.id !== id));
+
+			api()
+				.delete(`/users/${id}`)
+				.then((res) => console.log(res))
+				.catch((err) => {
+					console.log(err);
+					// put user back if fails
+					setUsers([...users, user]);
+				});
+		}
 	};
 
 	return (
